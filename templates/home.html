@@ -1,11 +1,67 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Google Spreadsheet Data</title>
+    <title>Auto Kensyu Test</title>
 </head>
+    <style>
+        table {
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: left;
+            font-size: 10px;
+        }
+    </style>
 <body>
-    <h1>Google Spreadsheet Data</h1>
-    <!-- テーブル変数を直接HTMLに挿入します -->
-    {{ table|safe }}
+    <h1>Auto Kensyu Test</h1>
+    <form method="POST" action="/update">
+        <table>
+            <tr>
+                <th>Select</th>
+                <th>row</th>
+                <th>通称</th>
+                <th>型番</th>
+                <th>Web</th>
+                <th>予算管理者</th>
+                <th>使用者</th>
+                <th>単価</th>
+                <th>数量</th>
+                <th>合計</th>
+                <th>発注日</th>
+                <th>納品日</th>
+                <th>伝票処理日</th>
+                <th>定価</th>
+            </tr>
+            {% for row in data %}
+            <tr>
+                <td><input type="radio" name="row_num" value="{{ row[0] }}"></td>  <!-- name属性をrow_numに変更 -->
+                <td>{{ row[0] }}</td>
+                {% for cell in row[1:] %}
+                <td>{{ cell }}</td>
+                {% endfor %}
+            </tr>
+            {% endfor %}
+        </table>
+
+        <!-- 日付の選択 -->
+        <p>Select a date:</p>
+        <input type="checkbox" id="delivery_date" name="date_choice" value="delivery_date">
+        <label for="delivery_date">納品日</label><br>
+        <input type="checkbox" id="invoice_processing_date" name="date_choice" value="invoice_processing_date">
+        <label for="invoice_processing_date">伝票処理日</label><br>
+
+        <!-- 会社の選択 -->
+        <p>Select a company:</p>
+        <input type="radio" id="thorlab" name="company" value="thorlab">
+        <label for="thorlab">Thorlab</label><br>
+        <input type="radio" id="amazon" name="company" value="amazon">
+        <label for="amazon">Amazon</label><br>
+        <input type="radio" id="other" name="company" value="other">
+        <label for="other">Other</label><br>
+
+        <input type="submit" value="Update">
+    </form>
 </body>
 </html>
